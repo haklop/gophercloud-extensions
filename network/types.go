@@ -4,13 +4,13 @@ type Networks struct {
 	Networks []Network `json:"networks,omitempty"`
 }
 
-// TODO add subnetworks
 type Network struct {
-	Status       string `json:"status,omitempty"`
-	Name         string `json:"name,omitempty"`
-	AdminStateUp bool   `json:"admin_state_up,omitempty"`
-	TenantId     string `json:"tenant_id,omitempty"`
-	Id           string `json:"id,omitempty"`
+	Status       string   `json:"status,omitempty"`
+	Name         string   `json:"name,omitempty"`
+	AdminStateUp bool     `json:"admin_state_up,omitempty"`
+	TenantId     string   `json:"tenant_id,omitempty"`
+	Subnets      []string `json:"subnets,omitempty"`
+	Id           string   `json:"id,omitempty"`
 }
 
 type NewNetwork struct {
@@ -31,10 +31,11 @@ type Subnet struct {
 }
 
 type SecurityGroup struct {
-	Id          string `json:"id,omitempty"`
-	Name        string `json:"name,omitempty"`
-	TenantId    string `json:"tenant_id,omitempty"`
-	Description string `json:"description,omitempty"`
+	Id          string              `json:"id,omitempty"`
+	Name        string              `json:"name,omitempty"`
+	TenantId    string              `json:"tenant_id,omitempty"`
+	Description string              `json:"description,omitempty"`
+	Rules       []SecurityGroupRule `json:"security_group_rules,omitempty"`
 }
 
 type NewSecurityGroup struct {
