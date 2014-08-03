@@ -43,3 +43,14 @@ type NewSecurityGroup struct {
 	TenantId    string `json:"tenant_id,omitempty"`
 	Description string `json:"description,omitempty"`
 }
+
+type SecurityGroupRule struct {
+	Id              string `json:"id,omitempty"`
+	TenantId        string `json:"tenant_id,omitempty"`
+	Direction       string `json:"direction,omitempty"`
+	PortRangeMin    int    `json:"port_range_min,omitempty"`
+	PortRangeMax    int    `json:"port_range_max,omitempty"`
+	Protocol        string `json:"protocol,omitempty"`
+	RemoteIpPrefix  string `json:"remote_ip_prefix,omitempty"`
+	SecurityGroupId string `json:"security_group_id,omitempty"`
+}

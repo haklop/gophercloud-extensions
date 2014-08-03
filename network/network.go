@@ -134,3 +134,21 @@ func (gnp *genericNetworksProvider) DeleteSecurityGroup(id string) error {
 
 	return err
 }
+
+func (gnp *genericNetworksProvider) CreateSecurityGroupRule(nsgr SecurityGroupRule) (*SecurityGroupRule, error) {
+	var sgr *SecurityGroupRule
+
+	ep := gnp.endpoint + "/v2.0/security-group-rules"
+	err := perigee.Post(ep, perigee.Options{
+		ReqBody: &struct {
+			SecurityGroupRule *SecurityGroupRule `json:"security_group_rule"`
+		}{&nsgr},
+		Results: &struct{ SecurityGroupRule **SecurityGroupRule }{&sgr},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{201},
+	})
+
+	return sgr, err
+}

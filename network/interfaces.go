@@ -10,4 +10,6 @@ type NetworkProvider interface {
 	CreateSecurityGroup(group NewSecurityGroup) (*SecurityGroup, error)
 	GetSecurityGroup(securityGroupId string) (*SecurityGroup, error)
 	DeleteSecurityGroup(securityGroupId string) error
+
+	CreateSecurityGroupRule(rule SecurityGroupRule) (*SecurityGroupRule, error)
 }
