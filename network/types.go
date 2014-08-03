@@ -4,6 +4,7 @@ type Networks struct {
 	Networks []Network `json:"networks,omitempty"`
 }
 
+// TODO add subnetworks
 type Network struct {
 	Status       string `json:"status,omitempty"`
 	Name         string `json:"name,omitempty"`
@@ -27,4 +28,18 @@ type Subnet struct {
 	IPVersion  int    `json:"ip_version,omitempty"`
 	EnableDhcp bool   `json:"enable_dhcp,omitempty"`
 	Id         string `json:"id,omitempty"`
+}
+
+type SecurityGroup struct {
+	Id          string `json:"id,omitempty"`
+	Name        string `json:"name,omitempty"`
+	TenantId    string `json:"tenant_id,omitempty"`
+	Description string `json:"description,omitempty"`
+}
+
+type NewSecurityGroup struct {
+	Id          string `json:"id,omitempty"`
+	Name        string `json:"name,omitempty"`
+	TenantId    string `json:"tenant_id,omitempty"`
+	Description string `json:"description,omitempty"`
 }

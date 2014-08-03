@@ -88,3 +88,49 @@ func (gnp *genericNetworksProvider) CreateSubnet(ns Subnet) (*Subnet, error) {
 
 	return s, err
 }
+
+func (gnp *genericNetworksProvider) CreateSecurityGroup(nsg NewSecurityGroup) (*SecurityGroup, error) {
+	var csg *SecurityGroup
+	ep := gnp.endpoint + "/v2.0/security-groups"
+	err := perigee.Post(ep, perigee.Options{
+		ReqBody: &struct {
+			NewSecurityGroup *NewSecurityGroup `json:"security_group"`
+		}{&nsg},
+		Results: &struct {
+			SecurityGroup **SecurityGroup `json:"security_group"`
+		}{&csg},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{201},
+	})
+
+	return csg, err
+}
+
+func (gnp *genericNetworksProvider) GetSecurityGroup(id string) (*SecurityGroup, error) {
+	var s *SecurityGroup
+
+	ep := gnp.endpoint + "/v2.0/security-groups/" + id
+	err := perigee.Get(ep, perigee.Options{
+		Results: &struct{ SecurityGroup **SecurityGroup }{&s},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{200},
+	})
+
+	return s, err
+}
+
+func (gnp *genericNetworksProvider) DeleteSecurityGroup(id string) error {
+	ep := gnp.endpoint + "/v2.0/security-groups/" + id
+	err := perigee.Delete(ep, perigee.Options{
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{204},
+	})
+
+	return err
+}
