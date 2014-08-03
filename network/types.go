@@ -18,3 +18,13 @@ type NewNetwork struct {
 	Shared       bool   `json:"shared,omitempty"`
 	TenantId     string `json:"tenant_id,omitempty"`
 }
+
+type Subnet struct {
+	NetworkId  string `json:"network_id,omitempty"`
+	Name       string `json:"name,omitempty"`
+	TenantId   string `json:"tenant_id,omitempty"`
+	Cidr       string `json:"cidr,omitempty"`
+	IPVersion  int    `json:"ip_version,omitempty"`
+	EnableDhcp bool   `json:"enable_dhcp,omitempty"`
+	Id         string `json:"id,omitempty"`
+}

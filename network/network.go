@@ -70,3 +70,21 @@ func (gnp *genericNetworksProvider) DeleteNetwork(id string) error {
 
 	return err
 }
+
+func (gnp *genericNetworksProvider) CreateSubnet(ns Subnet) (*Subnet, error) {
+	var s *Subnet
+
+	ep := gnp.endpoint + "/v2.0/subnets"
+	err := perigee.Post(ep, perigee.Options{
+		ReqBody: &struct {
+			Subnet *Subnet `json:"subnet"`
+		}{&ns},
+		Results: &struct{ Subnet **Subnet }{&s},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{201},
+	})
+
+	return s, err
+}

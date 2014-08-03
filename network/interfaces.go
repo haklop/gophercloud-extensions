@@ -4,4 +4,6 @@ type NetworkProvider interface {
 	CreateNetwork(nn NewNetwork) (*Network, error)
 	GetNetwork(networkId string) (*Network, error)
 	DeleteNetwork(networkId string) error
+
+	CreateSubnet(subnet Subnet) (*Subnet, error)
 }
