@@ -12,4 +12,7 @@ type NetworkProvider interface {
 	DeleteSecurityGroup(securityGroupId string) error
 
 	CreateSecurityGroupRule(rule SecurityGroupRule) (*SecurityGroupRule, error)
+
+	CreateRouter(router NewRouter) (*Router, error)
+	AddRouterInterface(routerId string, subnetId string) (*CreatedPortId, error)
 }

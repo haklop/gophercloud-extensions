@@ -152,3 +152,39 @@ func (gnp *genericNetworksProvider) CreateSecurityGroupRule(nsgr SecurityGroupRu
 
 	return sgr, err
 }
+
+func (gnp *genericNetworksProvider) CreateRouter(newRouter NewRouter) (*Router, error) {
+	var router *Router
+
+	ep := gnp.endpoint + "/v2.0/routers"
+	err := perigee.Post(ep, perigee.Options{
+		ReqBody: &struct {
+			NewRouter *NewRouter `json:"router"`
+		}{&newRouter},
+		Results: &struct{ Router **Router }{&router},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{201},
+	})
+
+	return router, err
+}
+
+func (gnp *genericNetworksProvider) AddRouterInterface(routerId string, subnetId string) (*CreatedPortId, error) {
+	var portId *CreatedPortId
+
+	ep := gnp.endpoint + "/v2.0/routers/" + routerId + "/add_router_interface"
+	err := perigee.Put(ep, perigee.Options{
+		ReqBody: &struct {
+			SubnetId string `json:"subnet_id"`
+		}{subnetId},
+		Results: &struct{ CreatedPortId **CreatedPortId }{&portId},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{200},
+	})
+
+	return portId, err
+}

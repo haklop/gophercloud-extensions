@@ -55,3 +55,31 @@ type SecurityGroupRule struct {
 	RemoteIpPrefix  string `json:"remote_ip_prefix,omitempty"`
 	SecurityGroupId string `json:"security_group_id,omitempty"`
 }
+
+type NewRouter struct {
+	Name            string          `json:"name,omitempty"`
+	ExternalGateway ExternalGateway `json:"external_gateway_info,omitempty"`
+	AdminStateUp    bool            `json:"admin_state_up,omitempty"`
+}
+
+type Router struct {
+	Id              string          `json:"id,omitempty"`
+	TenantId        string          `json:"tenant_id,omitempty"`
+	Name            string          `json:"name,omitempty"`
+	ExternalGateway ExternalGateway `json:"external_gateway_info,omitempty"`
+	AdminStateUp    bool            `json:"admin_state_up,omitempty"`
+	Status          string          `json:"status,omitempty"`
+}
+
+type ExternalGateway struct {
+	NetworkId string `json:"network_id,omitempty"`
+}
+
+type SubnetId struct {
+	SubnetId string `json:"subnet_id"`
+}
+
+type CreatedPortId struct {
+	SubnetId string `json:"subnet_id"`
+	PortId string `json:"port_id"`
+}
