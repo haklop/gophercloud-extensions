@@ -198,15 +198,42 @@ func (gnp *genericNetworksProvider) CreateRouter(newRouter NewRouter) (*Router, 
 	return router, err
 }
 
-func (gnp *genericNetworksProvider) AddRouterInterface(routerId string, subnetId string) (*CreatedPortId, error) {
-	var portId *CreatedPortId
+func (gnp *genericNetworksProvider) GetRouter(routerId string) (*Router, error) {
+	var r *Router
+
+	ep := gnp.endpoint + "/v2.0/routers/" + routerId
+	err := perigee.Get(ep, perigee.Options{
+		Results: &struct{ Router **Router }{&r},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{200},
+	})
+
+	return r, err
+}
+
+func (gnp *genericNetworksProvider) DeleteRouter(id string) error {
+	ep := gnp.endpoint + "/v2.0/routers/" + id
+	err := perigee.Delete(ep, perigee.Options{
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{204},
+	})
+
+	return err
+}
+
+func (gnp *genericNetworksProvider) AddRouterInterface(routerId string, subnetId string) (*PortId, error) {
+	var portId *PortId
 
 	ep := gnp.endpoint + "/v2.0/routers/" + routerId + "/add_router_interface"
 	err := perigee.Put(ep, perigee.Options{
 		ReqBody: &struct {
 			SubnetId string `json:"subnet_id"`
 		}{subnetId},
-		Results: &struct{ CreatedPortId **CreatedPortId }{&portId},
+		Results: &struct{ PortId **PortId }{&portId},
 		MoreHeaders: map[string]string{
 			"X-Auth-Token": gnp.access.AuthToken(),
 		},
@@ -214,4 +241,55 @@ func (gnp *genericNetworksProvider) AddRouterInterface(routerId string, subnetId
 	})
 
 	return portId, err
+}
+
+func (gnp *genericNetworksProvider) RemoveRouterInterface(routerId string, portId string) error {
+
+	ep := gnp.endpoint + "/v2.0/routers/" + routerId + "/remove_router_interface"
+	err := perigee.Put(ep, perigee.Options{
+		ReqBody: &struct {
+			PortId string `json:"port_id"`
+		}{portId},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{200},
+	})
+
+	return err
+}
+
+func (gnp *genericNetworksProvider) GetPorts() ([]*PortId, error) {
+	var ports []*PortId
+
+	ep := gnp.endpoint + "/v2.0/ports"
+	err := perigee.Get(ep, perigee.Options{
+		Results: &struct {
+			PortId *[]*PortId `json:"ports"`
+		}{&ports},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{200},
+	})
+
+	return ports, err
+}
+
+func (gnp *genericNetworksProvider) UpdateRouter(router Router) (*Router, error) {
+	var r *Router
+
+	ep := gnp.endpoint + "/v2.0/routers/" + router.Id
+	err := perigee.Put(ep, perigee.Options{
+		ReqBody: &struct {
+			router Router `json:"router"`
+		}{router},
+		Results: &struct{ Router **Router }{&r},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{200},
+	})
+
+	return r, err
 }

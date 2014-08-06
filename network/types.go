@@ -89,7 +89,8 @@ type SubnetId struct {
 	SubnetId string `json:"subnet_id"`
 }
 
-type CreatedPortId struct {
+type PortId struct {
 	SubnetId string `json:"subnet_id"`
-	PortId   string `json:"port_id"`
+	PortId   string `json:"id"`
+	DeviceId string `json:"device_id"`
 }
