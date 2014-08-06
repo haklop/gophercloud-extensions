@@ -71,13 +71,13 @@ func (gnp *genericNetworksProvider) DeleteNetwork(id string) error {
 	return err
 }
 
-func (gnp *genericNetworksProvider) CreateSubnet(ns Subnet) (*Subnet, error) {
+func (gnp *genericNetworksProvider) CreateSubnet(ns NewSubnet) (*Subnet, error) {
 	var s *Subnet
 
 	ep := gnp.endpoint + "/v2.0/subnets"
 	err := perigee.Post(ep, perigee.Options{
 		ReqBody: &struct {
-			Subnet *Subnet `json:"subnet"`
+			NewSubnet *NewSubnet `json:"subnet"`
 		}{&ns},
 		Results: &struct{ Subnet **Subnet }{&s},
 		MoreHeaders: map[string]string{
@@ -87,6 +87,33 @@ func (gnp *genericNetworksProvider) CreateSubnet(ns Subnet) (*Subnet, error) {
 	})
 
 	return s, err
+}
+
+func (gnp *genericNetworksProvider) GetSubnet(id string) (*Subnet, error) {
+	var s *Subnet
+
+	ep := gnp.endpoint + "/v2.0/subnets/" + id
+	err := perigee.Get(ep, perigee.Options{
+		Results: &struct{ Subnet **Subnet }{&s},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{201},
+	})
+
+	return s, err
+}
+
+func (gnp *genericNetworksProvider) DeleteSubnet(id string) error {
+	ep := gnp.endpoint + "/v2.0/subnets/" + id
+	err := perigee.Delete(ep, perigee.Options{
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{204},
+	})
+
+	return err
 }
 
 func (gnp *genericNetworksProvider) CreateSecurityGroup(nsg NewSecurityGroup) (*SecurityGroup, error) {

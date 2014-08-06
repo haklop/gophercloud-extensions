@@ -28,6 +28,16 @@ type Subnet struct {
 	IPVersion  int    `json:"ip_version,omitempty"`
 	EnableDhcp bool   `json:"enable_dhcp,omitempty"`
 	Id         string `json:"id,omitempty"`
+	GatewayIp  string `json:"gateway_ip,omitempty"`
+}
+
+type NewSubnet struct {
+	NetworkId  string `json:"network_id,omitempty"`
+	Name       string `json:"name,omitempty"`
+	TenantId   string `json:"tenant_id,omitempty"`
+	Cidr       string `json:"cidr,omitempty"`
+	IPVersion  int    `json:"ip_version,omitempty"`
+	EnableDhcp bool   `json:"enable_dhcp,omitempty"`
 }
 
 type SecurityGroup struct {
@@ -81,5 +91,5 @@ type SubnetId struct {
 
 type CreatedPortId struct {
 	SubnetId string `json:"subnet_id"`
-	PortId string `json:"port_id"`
+	PortId   string `json:"port_id"`
 }

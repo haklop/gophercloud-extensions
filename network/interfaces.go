@@ -5,7 +5,9 @@ type NetworkProvider interface {
 	GetNetwork(networkId string) (*Network, error)
 	DeleteNetwork(networkId string) error
 
-	CreateSubnet(subnet Subnet) (*Subnet, error)
+	CreateSubnet(subnet NewSubnet) (*Subnet, error)
+	GetSubnet(subnetId string) (*Subnet, error)
+	DeleteSubnet(subnetId string) error
 
 	CreateSecurityGroup(group NewSecurityGroup) (*SecurityGroup, error)
 	GetSecurityGroup(securityGroupId string) (*SecurityGroup, error)
