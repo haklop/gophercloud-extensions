@@ -20,6 +20,11 @@ type NewNetwork struct {
 	TenantId     string `json:"tenant_id,omitempty"`
 }
 
+type UpdatedNetwork struct {
+	Name         string `json:"name"`
+	AdminStateUp bool   `json:"admin_state_up,omitempty"`
+}
+
 type Subnet struct {
 	NetworkId  string `json:"network_id,omitempty"`
 	Name       string `json:"name,omitempty"`
@@ -37,6 +42,11 @@ type NewSubnet struct {
 	TenantId   string `json:"tenant_id,omitempty"`
 	Cidr       string `json:"cidr,omitempty"`
 	IPVersion  int    `json:"ip_version,omitempty"`
+	EnableDhcp bool   `json:"enable_dhcp,omitempty"`
+}
+
+type UpdatedSubnet struct {
+	Name       string `json:"name"`
 	EnableDhcp bool   `json:"enable_dhcp,omitempty"`
 }
 

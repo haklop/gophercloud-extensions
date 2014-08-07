@@ -59,6 +59,24 @@ func (gnp *genericNetworksProvider) GetNetwork(id string) (*Network, error) {
 	return n, err
 }
 
+func (gnp *genericNetworksProvider) UpdateNetwork(networkId string, updatedNetwork UpdatedNetwork) (*Network, error) {
+	var n *Network
+
+	ep := gnp.endpoint + "/v2.0/networks/" + networkId
+	err := perigee.Put(ep, perigee.Options{
+		ReqBody: &struct {
+			UpdatedNetwork *UpdatedNetwork `json:"network"`
+		}{&updatedNetwork},
+		Results: &struct{ Network **Network }{&n},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{200},
+	})
+
+	return n, err
+}
+
 func (gnp *genericNetworksProvider) DeleteNetwork(id string) error {
 	ep := gnp.endpoint + "/v2.0/networks/" + id
 	err := perigee.Delete(ep, perigee.Options{
@@ -98,7 +116,25 @@ func (gnp *genericNetworksProvider) GetSubnet(id string) (*Subnet, error) {
 		MoreHeaders: map[string]string{
 			"X-Auth-Token": gnp.access.AuthToken(),
 		},
-		OkCodes: []int{201},
+		OkCodes: []int{200},
+	})
+
+	return s, err
+}
+
+func (gnp *genericNetworksProvider) UpdateSubnet(subnetId string, updatedSubnet UpdatedSubnet) (*Subnet, error) {
+	var s *Subnet
+
+	ep := gnp.endpoint + "/v2.0/subnets/" + subnetId
+	err := perigee.Put(ep, perigee.Options{
+		ReqBody: &struct {
+			UpdatedSubnet *UpdatedSubnet `json:"subnet"`
+		}{&updatedSubnet},
+		Results: &struct{ Subnet **Subnet }{&s},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{200},
 	})
 
 	return s, err

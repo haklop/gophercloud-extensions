@@ -3,10 +3,12 @@ package network
 type NetworkProvider interface {
 	CreateNetwork(nn NewNetwork) (*Network, error)
 	GetNetwork(networkId string) (*Network, error)
+	UpdateNetwork(networkId string, updatedNetwork UpdatedNetwork) (*Network, error)
 	DeleteNetwork(networkId string) error
 
 	CreateSubnet(subnet NewSubnet) (*Subnet, error)
 	GetSubnet(subnetId string) (*Subnet, error)
+	UpdateSubnet(subnetId string, updatedSubnet UpdatedSubnet) (*Subnet, error)
 	DeleteSubnet(subnetId string) error
 
 	CreateSecurityGroup(group NewSecurityGroup) (*SecurityGroup, error)
