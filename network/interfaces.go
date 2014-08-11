@@ -3,6 +3,7 @@ package network
 type NetworkProvider interface {
 	CreateNetwork(nn NewNetwork) (*Network, error)
 	GetNetwork(networkId string) (*Network, error)
+	GetNetworks() ([]Network, error)
 	UpdateNetwork(networkId string, updatedNetwork UpdatedNetwork) (*Network, error)
 	DeleteNetwork(networkId string) error
 

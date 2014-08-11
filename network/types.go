@@ -11,6 +11,7 @@ type Network struct {
 	TenantId     string   `json:"tenant_id,omitempty"`
 	Subnets      []string `json:"subnets,omitempty"`
 	Id           string   `json:"id,omitempty"`
+	IsExternal   bool     `json:"router:external,omitempty"`
 }
 
 type NewNetwork struct {

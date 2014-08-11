@@ -59,6 +59,23 @@ func (gnp *genericNetworksProvider) GetNetwork(id string) (*Network, error) {
 	return n, err
 }
 
+func (gnp *genericNetworksProvider) GetNetworks() ([]Network, error) {
+	var n []Network
+
+	ep := gnp.endpoint + "/v2.0/networks"
+	err := perigee.Get(ep, perigee.Options{
+		Results: &struct{
+			Network *[]Network  `json:"networks"`
+		}{&n},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{200},
+	})
+
+	return n, err
+}
+
 func (gnp *genericNetworksProvider) UpdateNetwork(networkId string, updatedNetwork UpdatedNetwork) (*Network, error) {
 	var n *Network
 
