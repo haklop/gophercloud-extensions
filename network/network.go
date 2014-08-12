@@ -379,3 +379,35 @@ func (gnp *genericNetworksProvider) GetPool(poolId string) (*Pool, error) {
 
 	return pool, err
 }
+
+func (gnp *genericNetworksProvider) UpdatePool(pool Pool) (*Pool, error) {
+	var updatedPool *Pool
+
+	ep := gnp.endpoint + "/v2.0/lb/pools/" + pool.Id
+
+	pool.Id = "" // remove read-only attribute
+	err := perigee.Put(ep, perigee.Options{
+		ReqBody: &struct {
+			Pool *Pool `json:"pool"`
+		}{&pool},
+		Results: &struct{ Pool **Pool }{&updatedPool},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{200},
+	})
+
+	return updatedPool, err
+}
+
+func (gnp *genericNetworksProvider) DeletePool(poolId string) error {
+	ep := gnp.endpoint + "/v2.0/lb/pools/" + poolId
+	err := perigee.Delete(ep, perigee.Options{
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{204},
+	})
+
+	return err
+}
