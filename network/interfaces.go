@@ -30,4 +30,8 @@ type NetworkProvider interface {
 	GetPool(poolId string) (*Pool, error)
 	UpdatePool(pool Pool) (*Pool, error)
 	DeletePool(poolId string) error
+
+	CreateMember(newMember NewMember) (*Member, error)
+	GetMember(memberId string) (*Member, error)
+	DeleteMember(memberId string) error
 }

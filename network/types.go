@@ -128,3 +128,19 @@ type Pool struct {
 	Members        []string `json:"members,omitempty"`
 	HealthMonitors []string `json:"health_monitors,omitempty"`
 }
+
+type NewMember struct {
+	ProtocolPort int    `json:"protocol_port,omitempty"`
+	Address      string `json:"address,omitempty"`
+	PoolId       string `json:"pool_id,omitempty"`
+	AdminStateUp bool   `json:"admin_state_up,omitempty"`
+}
+
+type Member struct {
+	Id           string `json:"id,omitempty"`
+	Status       string `json:"status,omitempty"`
+	ProtocolPort int    `json:"protocol_port,omitempty"`
+	Address      string `json:"address,omitempty"`
+	PoolId       string `json:"pool_id,omitempty"`
+	AdminStateUp bool   `json:"admin_state_up,omitempty"`
+}

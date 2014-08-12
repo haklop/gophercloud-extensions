@@ -411,3 +411,48 @@ func (gnp *genericNetworksProvider) DeletePool(poolId string) error {
 
 	return err
 }
+
+func (gnp *genericNetworksProvider) CreateMember(newMember NewMember) (*Member, error) {
+	var member *Member
+
+	ep := gnp.endpoint + "/v2.0/lb/members"
+	err := perigee.Post(ep, perigee.Options{
+		ReqBody: &struct {
+			NewMember *NewMember `json:"member"`
+		}{&newMember},
+		Results: &struct{ Member **Member }{&member},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{201},
+	})
+
+	return member, err
+}
+
+func (gnp *genericNetworksProvider) GetMember(memberId string) (*Member, error) {
+	var member *Member
+
+	ep := gnp.endpoint + "/v2.0/lb/members/" + memberId
+	err := perigee.Get(ep, perigee.Options{
+		Results: &struct{ Member **Member }{&member},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{200},
+	})
+
+	return member, err
+}
+
+func (gnp *genericNetworksProvider) DeleteMember(memberId string) error {
+	ep := gnp.endpoint + "/v2.0/lb/members/" + memberId
+	err := perigee.Delete(ep, perigee.Options{
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{204},
+	})
+
+	return err
+}
