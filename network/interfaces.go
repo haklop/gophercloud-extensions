@@ -25,4 +25,7 @@ type NetworkProvider interface {
 	RemoveRouterInterface(routerId string, portId string) error
 	DeleteRouter(routerId string) error
 	GetPorts() ([]*PortId, error)
+
+	CreatePool(newPool NewPool) (*Pool, error)
+	GetPool(poolId string) (*Pool, error)
 }

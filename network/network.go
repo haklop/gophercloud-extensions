@@ -64,8 +64,8 @@ func (gnp *genericNetworksProvider) GetNetworks() ([]Network, error) {
 
 	ep := gnp.endpoint + "/v2.0/networks"
 	err := perigee.Get(ep, perigee.Options{
-		Results: &struct{
-			Network *[]Network  `json:"networks"`
+		Results: &struct {
+			Network *[]Network `json:"networks"`
 		}{&n},
 		MoreHeaders: map[string]string{
 			"X-Auth-Token": gnp.access.AuthToken(),
@@ -345,4 +345,37 @@ func (gnp *genericNetworksProvider) UpdateRouter(router Router) (*Router, error)
 	})
 
 	return r, err
+}
+
+func (gnp *genericNetworksProvider) CreatePool(newPool NewPool) (*Pool, error) {
+	var pool *Pool
+
+	ep := gnp.endpoint + "/v2.0/lb/pools"
+	err := perigee.Post(ep, perigee.Options{
+		ReqBody: &struct {
+			NewPool *NewPool `json:"pool"`
+		}{&newPool},
+		Results: &struct{ Pool **Pool }{&pool},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{201},
+	})
+
+	return pool, err
+}
+
+func (gnp *genericNetworksProvider) GetPool(poolId string) (*Pool, error) {
+	var pool *Pool
+
+	ep := gnp.endpoint + "/v2.0/lb/pools/" + poolId
+	err := perigee.Get(ep, perigee.Options{
+		Results: &struct{ Pool **Pool }{&pool},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{200},
+	})
+
+	return pool, err
 }

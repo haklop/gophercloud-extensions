@@ -105,3 +105,26 @@ type PortId struct {
 	PortId   string `json:"id"`
 	DeviceId string `json:"device_id"`
 }
+
+type NewPool struct {
+	SubnetId     string `json:"subnet_id,omitempty"`
+	LoadMethod   string `json:"lb_method,omitempty"`
+	Protocol     string `json:"protocol,omitempty"`
+	Name         string `json:"name,omitempty"`
+	Description  string `json:"description,omitempty"`
+	AdminStateUp bool   `json:"admin_state_up,omitempty"`
+}
+
+type Pool struct {
+	SubnetId       string   `json:"subnet_id,omitempty"`
+	LoadMethod     string   `json:"lb_method,omitempty"`
+	Protocol       string   `json:"protocol,omitempty"`
+	Name           string   `json:"name,omitempty"`
+	AdminStateUp   bool     `json:"admin_state_up,omitempty"`
+	Status         string   `json:"status,omitempty"`
+	Description    string   `json:"description,omitempty"`
+	Id             string   `json:"id,omitempty"`
+	VipId          string   `json:"vip_id,omitempty"`
+	Members        []string `json:"members,omitempty"`
+	HealthMonitors []string `json:"health_monitors,omitempty"`
+}
