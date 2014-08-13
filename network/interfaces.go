@@ -21,10 +21,10 @@ type NetworkProvider interface {
 	CreateRouter(router NewRouter) (*Router, error)
 	GetRouter(routerId string) (*Router, error)
 	UpdateRouter(router Router) (*Router, error)
-	AddRouterInterface(routerId string, subnetId string) (*PortId, error)
+	AddRouterInterface(routerId string, subnetId string) (*Port, error)
 	RemoveRouterInterface(routerId string, portId string) error
 	DeleteRouter(routerId string) error
-	GetPorts() ([]*PortId, error)
+	GetPorts() ([]*Port, error)
 
 	CreatePool(newPool NewPool) (*Pool, error)
 	GetPool(poolId string) (*Pool, error)

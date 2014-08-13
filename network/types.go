@@ -100,10 +100,19 @@ type SubnetId struct {
 	SubnetId string `json:"subnet_id"`
 }
 
-type PortId struct {
-	SubnetId string `json:"subnet_id"`
-	PortId   string `json:"id"`
-	DeviceId string `json:"device_id"`
+type Port struct {
+	NetworkId    string    `json:"network_id"`
+	PortId       string    `json:"id"`
+	DeviceId     string    `json:"device_id"`
+	name         string    `json:"name"`
+	Id           string    `json:"id"`
+	FixedIps     []FixedIp `json:"fixed_ips"`
+	AdminStateUp bool      `json:"admin_state_up"`
+}
+
+type FixedIp struct {
+	SubnetId  string `json:"subnet_id"`
+	IpAddress string `json:""ip_address"`
 }
 
 type NewPool struct {
