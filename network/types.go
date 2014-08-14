@@ -112,7 +112,7 @@ type Port struct {
 
 type FixedIp struct {
 	SubnetId  string `json:"subnet_id"`
-	IpAddress string `json:""ip_address"`
+	IpAddress string `json:"ip_address"`
 }
 
 type NewPool struct {
