@@ -1,6 +1,7 @@
 package network
 
 import (
+	"fmt"
 	"github.com/racker/perigee"
 	"github.com/rackspace/gophercloud"
 )
@@ -9,7 +10,10 @@ import (
 func NetworksApi(acc gophercloud.AccessProvider, criteria gophercloud.ApiCriteria) (NetworkProvider, error) {
 	url := acc.FirstEndpointUrlByCriteria(criteria)
 	if url == "" {
-		return nil, gophercloud.ErrEndpoint
+		var err = fmt.Errorf(
+			"Missing endpoint, or insufficient privileges to access endpoint; criteria = %# v",
+			criteria)
+		return nil, err
 	}
 
 	gcp := &genericNetworksProvider{
