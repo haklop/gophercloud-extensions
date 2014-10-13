@@ -153,3 +153,26 @@ type Member struct {
 	PoolId       string `json:"pool_id,omitempty"`
 	AdminStateUp bool   `json:"admin_state_up,omitempty"`
 }
+
+type NewMonitor struct {
+	Type          string `json:"type,omitempty"`
+	Delay         int    `json:"delay,omitempty"`
+	Timeout       int    `json:"timeout,omitempty"`
+	MaxRetries    int    `json:"max_retries,omitempty"`
+	UrlPath       string `json:"url_path,omitempty"`
+	ExpectedCodes string `json:"expected_codes ,omitempty"`
+	HttpMethod    string `json:"http_method ,omitempty"`
+}
+
+type Monitor struct {
+	Id            string `json:"id,omitempty"`
+	Type          string `json:"type,omitempty"`
+	Delay         int    `json:"delay,omitempty"`
+	Timeout       int    `json:"timeout,omitempty"`
+	MaxRetry      int    `json:"max_retry,omitempty"`
+	UrlPath       string `json:"url_path,omitempty"`
+	ExpectedCodes string `json:"expected_codes ,omitempty"`
+	HttpMethod    string `json:"http_method ,omitempty"`
+	Status        string `json:"status ,omitempty"`
+	AdminStateUp  bool   `json:"admin_state_up  ,omitempty"`
+}

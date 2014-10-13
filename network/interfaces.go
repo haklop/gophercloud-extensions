@@ -34,4 +34,8 @@ type NetworkProvider interface {
 	CreateMember(newMember NewMember) (*Member, error)
 	GetMember(memberId string) (*Member, error)
 	DeleteMember(memberId string) error
+
+	CreateMonitor(newMonitor NewMonitor) (*Monitor, error)
+	GetMonitor(monitorId string) (*Monitor, error)
+	DeleteMonitor(monitorId string) error
 }

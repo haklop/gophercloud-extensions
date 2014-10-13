@@ -366,6 +366,8 @@ func (gnp *genericNetworksProvider) CreatePool(newPool NewPool) (*Pool, error) {
 		OkCodes: []int{201},
 	})
 
+	fmt.Println("pool created: %#v", pool)
+
 	return pool, err
 }
 
@@ -451,6 +453,51 @@ func (gnp *genericNetworksProvider) GetMember(memberId string) (*Member, error) 
 
 func (gnp *genericNetworksProvider) DeleteMember(memberId string) error {
 	ep := gnp.endpoint + "/v2.0/lb/members/" + memberId
+	err := perigee.Delete(ep, perigee.Options{
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{204},
+	})
+
+	return err
+}
+
+func (gnp *genericNetworksProvider) CreateMonitor(newMonitor NewMonitor) (*Monitor, error) {
+	var monitor *Monitor
+
+	ep := gnp.endpoint + "/v2.0/lb/health_monitors"
+	err := perigee.Post(ep, perigee.Options{
+		ReqBody: &struct {
+			NewMonitor *NewMonitor `json:"health_monitor"`
+		}{&newMonitor},
+		Results: &struct{ Monitor **Monitor }{&monitor},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{201},
+	})
+
+	return monitor, err
+}
+
+func (gnp *genericNetworksProvider) GetMonitor(monitorId string) (*Monitor, error) {
+	var monitor *Monitor
+
+	ep := gnp.endpoint + "/v2.0/lb/health_monitors/" + monitorId
+	err := perigee.Get(ep, perigee.Options{
+		Results: &struct{ Monitor **Monitor }{&monitor},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{200},
+	})
+
+	return monitor, err
+}
+
+func (gnp *genericNetworksProvider) DeleteMonitor(monitorId string) error {
+	ep := gnp.endpoint + "/v2.0/lb/health_monitors/" + monitorId
 	err := perigee.Delete(ep, perigee.Options{
 		MoreHeaders: map[string]string{
 			"X-Auth-Token": gnp.access.AuthToken(),
