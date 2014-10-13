@@ -38,4 +38,7 @@ type NetworkProvider interface {
 	CreateMonitor(newMonitor NewMonitor) (*Monitor, error)
 	GetMonitor(monitorId string) (*Monitor, error)
 	DeleteMonitor(monitorId string) error
+
+	AssociateMonitor(monitorId string, poolId string) error
+	UnassociateMonitor(monitorId string, poolId string) error
 }

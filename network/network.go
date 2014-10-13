@@ -366,8 +366,6 @@ func (gnp *genericNetworksProvider) CreatePool(newPool NewPool) (*Pool, error) {
 		OkCodes: []int{201},
 	})
 
-	fmt.Println("pool created: %#v", pool)
-
 	return pool, err
 }
 
@@ -471,7 +469,9 @@ func (gnp *genericNetworksProvider) CreateMonitor(newMonitor NewMonitor) (*Monit
 		ReqBody: &struct {
 			NewMonitor *NewMonitor `json:"health_monitor"`
 		}{&newMonitor},
-		Results: &struct{ Monitor **Monitor }{&monitor},
+		Results: &struct {
+			Monitor **Monitor `json:"health_monitor"`
+		}{&monitor},
 		MoreHeaders: map[string]string{
 			"X-Auth-Token": gnp.access.AuthToken(),
 		},
@@ -486,7 +486,9 @@ func (gnp *genericNetworksProvider) GetMonitor(monitorId string) (*Monitor, erro
 
 	ep := gnp.endpoint + "/v2.0/lb/health_monitors/" + monitorId
 	err := perigee.Get(ep, perigee.Options{
-		Results: &struct{ Monitor **Monitor }{&monitor},
+		Results: &struct {
+			Monitor **Monitor `json:"health_monitor"`
+		}{&monitor},
 		MoreHeaders: map[string]string{
 			"X-Auth-Token": gnp.access.AuthToken(),
 		},
@@ -499,6 +501,35 @@ func (gnp *genericNetworksProvider) GetMonitor(monitorId string) (*Monitor, erro
 func (gnp *genericNetworksProvider) DeleteMonitor(monitorId string) error {
 	ep := gnp.endpoint + "/v2.0/lb/health_monitors/" + monitorId
 	err := perigee.Delete(ep, perigee.Options{
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{204},
+	})
+
+	return err
+}
+
+func (gnp *genericNetworksProvider) AssociateMonitor(monitorId string, poolId string) error {
+	monitor := Monitor{Id: monitorId}
+
+	ep := gnp.endpoint + "/v2.0/lb/pools/" + poolId + "/health_monitors"
+	err := perigee.Post(ep, perigee.Options{
+		ReqBody: &struct {
+			Monitor *Monitor `json:"health_monitor"`
+		}{&monitor},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{201},
+	})
+
+	return err
+}
+
+func (gnp *genericNetworksProvider) UnassociateMonitor(monitorId string, poolId string) error {
+	ep := gnp.endpoint + "/v2.0/lb/pools/" + poolId + "/health_monitors/" + monitorId
+	err := perigee.Post(ep, perigee.Options{
 		MoreHeaders: map[string]string{
 			"X-Auth-Token": gnp.access.AuthToken(),
 		},
