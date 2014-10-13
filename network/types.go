@@ -121,6 +121,7 @@ type NewPool struct {
 	Protocol     string `json:"protocol,omitempty"`
 	Name         string `json:"name,omitempty"`
 	Description  string `json:"description,omitempty"`
+	Provider     string `json:"provider,omitempty"`
 	AdminStateUp bool   `json:"admin_state_up,omitempty"`
 }
 

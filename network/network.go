@@ -529,7 +529,7 @@ func (gnp *genericNetworksProvider) AssociateMonitor(monitorId string, poolId st
 
 func (gnp *genericNetworksProvider) UnassociateMonitor(monitorId string, poolId string) error {
 	ep := gnp.endpoint + "/v2.0/lb/pools/" + poolId + "/health_monitors/" + monitorId
-	err := perigee.Post(ep, perigee.Options{
+	err := perigee.Delete(ep, perigee.Options{
 		MoreHeaders: map[string]string{
 			"X-Auth-Token": gnp.access.AuthToken(),
 		},
