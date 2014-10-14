@@ -202,3 +202,7 @@ type Vip struct {
 	ConnectionLimit int    `json:"connection_limit,omitempty"`
 	AdminStateUp    bool   `json:"admin_state_up  ,omitempty"`
 }
+
+type FloatingIp struct {
+	PortId string `json:"port_id,omitempty"`
+}

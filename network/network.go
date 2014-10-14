@@ -583,3 +583,37 @@ func (gnp *genericNetworksProvider) DeleteVip(vipId string) error {
 
 	return err
 }
+
+func (gnp *genericNetworksProvider) AssociateFloatingIp(portId string, floatingIpId string) error {
+	floatingIp := FloatingIp{PortId: portId}
+
+	ep := gnp.endpoint + "/v2.0/floatingips/" + floatingIpId
+	err := perigee.Put(ep, perigee.Options{
+		ReqBody: &struct {
+			FloatingIp *FloatingIp `json:"floatingip"`
+		}{&floatingIp},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{200},
+	})
+
+	return err
+}
+
+func (gnp *genericNetworksProvider) UnassociateFloatingIp(floatingIpId string) error {
+	floatingIp := FloatingIp{}
+
+	ep := gnp.endpoint + "/v2.0/floatingips/" + floatingIpId
+	err := perigee.Put(ep, perigee.Options{
+		ReqBody: &struct {
+			FloatingIp *FloatingIp `json:"floatingip"`
+		}{&floatingIp},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{200},
+	})
+
+	return err
+}

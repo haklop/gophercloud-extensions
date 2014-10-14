@@ -45,4 +45,7 @@ type NetworkProvider interface {
 	CreateVip(newVio NewVip) (*Vip, error)
 	GetVip(vipId string) (*Vip, error)
 	DeleteVip(vipId string) error
+
+	AssociateFloatingIp(portId string, floatingId string) error
+	UnassociateFloatingIp(floatingIpId string) error
 }
