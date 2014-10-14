@@ -538,3 +538,48 @@ func (gnp *genericNetworksProvider) UnassociateMonitor(monitorId string, poolId 
 
 	return err
 }
+
+func (gnp *genericNetworksProvider) CreateVip(newVip NewVip) (*Vip, error) {
+	var vip *Vip
+
+	ep := gnp.endpoint + "/v2.0/lb/vips"
+	err := perigee.Post(ep, perigee.Options{
+		ReqBody: &struct {
+			NewVip *NewVip `json:"vip"`
+		}{&newVip},
+		Results: &struct{ Vip **Vip }{&vip},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{201},
+	})
+
+	return vip, err
+}
+
+func (gnp *genericNetworksProvider) GetVip(vipId string) (*Vip, error) {
+	var vip *Vip
+
+	ep := gnp.endpoint + "/v2.0/lb/vips/" + vipId
+	err := perigee.Get(ep, perigee.Options{
+		Results: &struct{ Vip **Vip }{&vip},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{200},
+	})
+
+	return vip, err
+}
+
+func (gnp *genericNetworksProvider) DeleteVip(vipId string) error {
+	ep := gnp.endpoint + "/v2.0/lb/vips/" + vipId
+	err := perigee.Delete(ep, perigee.Options{
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{204},
+	})
+
+	return err
+}

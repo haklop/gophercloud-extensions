@@ -41,4 +41,8 @@ type NetworkProvider interface {
 
 	AssociateMonitor(monitorId string, poolId string) error
 	UnassociateMonitor(monitorId string, poolId string) error
+
+	CreateVip(newVio NewVip) (*Vip, error)
+	GetVip(vipId string) (*Vip, error)
+	DeleteVip(vipId string) error
 }

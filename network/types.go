@@ -177,3 +177,28 @@ type Monitor struct {
 	Status        string `json:"status ,omitempty"`
 	AdminStateUp  bool   `json:"admin_state_up  ,omitempty"`
 }
+
+type NewVip struct {
+	Name         string `json:"name,omitempty"`
+	Description  string `json:"description,omitempty"`
+	Protocol     string `json:"protocol,omitempty"`
+	SubnetId     string `json:"subnet_id,omitempty"`
+	ProtocolPort int    `json:"protocol_port,omitempty"`
+	PoolId       string `json:"pool_id,omitempty"`
+	AdminStateUp bool   `json:"admin_state_up,omitempty"`
+}
+
+type Vip struct {
+	Id              string `json:"id,omitempty"`
+	Protocol        string `json:"protocol,omitempty"`
+	Name            string `json:"name,omitempty"`
+	Description     string `json:"description,omitempty"`
+	SubnetId        string `json:"subnet_id,omitempty"`
+	Status          string `json:"status ,omitempty"`
+	ProtocolPort    int    `json:"protocol_port,omitempty"`
+	PoolId          string `json:"pool_id,omitempty"`
+	PortId          string `json:"port_id,omitempty"`
+	Address         string `json:"address,omitempty"`
+	ConnectionLimit int    `json:"connection_limit,omitempty"`
+	AdminStateUp    bool   `json:"admin_state_up  ,omitempty"`
+}
