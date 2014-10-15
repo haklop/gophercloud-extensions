@@ -617,3 +617,20 @@ func (gnp *genericNetworksProvider) UnassociateFloatingIp(floatingIpId string) e
 
 	return err
 }
+
+func (gnp *genericNetworksProvider) ListFloatingIps() ([]FloatingIp, error) {
+	var floatingips []FloatingIp
+
+	ep := gnp.endpoint + "/v2.0/floatingips"
+	err := perigee.Get(ep, perigee.Options{
+		Results: &struct {
+			FloatingIp *[]FloatingIp `json:"floatingips"`
+		}{&floatingips},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{200},
+	})
+
+	return floatingips, err
+}

@@ -204,5 +204,11 @@ type Vip struct {
 }
 
 type FloatingIp struct {
-	PortId string `json:"port_id,omitempty"`
+	PortId            string `json:"port_id,omitempty"`
+	RouterId          string `json:"router_id,omitempty"`
+	FloatingNetworkId string `json:"floating_network_id,omitempty"`
+	FixedIpAddress    string `json:"fixed_ip_address,omitempty"`
+	FloatingIpAddress string `json:"floating_ip_address,omitempty"`
+	Id                string `json:"id,omitempty"`
+	Status            string `json:"status,omitempty"`
 }

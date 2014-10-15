@@ -46,6 +46,7 @@ type NetworkProvider interface {
 	GetVip(vipId string) (*Vip, error)
 	DeleteVip(vipId string) error
 
+	ListFloatingIps() ([]FloatingIp, error)
 	AssociateFloatingIp(portId string, floatingId string) error
 	UnassociateFloatingIp(floatingIpId string) error
 }
