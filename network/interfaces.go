@@ -53,4 +53,8 @@ type NetworkProvider interface {
 	CreateFirewall(newFirewall NewFirewall) (*Firewall, error)
 	GetFirewall(firewallId string) (*Firewall, error)
 	DeleteFirewall(firewallId string) error
+
+	CreateFirewallPolicy(newPolicy NewFirewallPolicy) (*FirewallPolicy, error)
+	GetFirewallPolicy(policyId string) (*FirewallPolicy, error)
+	DeleteFirewallPolicy(policyId string) error
 }

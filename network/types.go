@@ -232,3 +232,20 @@ type Firewall struct {
 	Shared       string `json:"shared,omitempty"`
 	PolicyId     string `json:"firewall_policy_id,omitempty"`
 }
+
+type NewFirewallPolicy struct {
+	TenantId    string `json:"tenant_id,omitempty"`
+	Name        string `json:"name,omitempty"`
+	Description string `json:"description,omitempty"`
+	Shared      bool   `json:"shared,omitempty"`
+	Audited     bool   `json:"audited,omitempty"`
+}
+
+type FirewallPolicy struct {
+	Id          string `json:"id,omitempty"`
+	TenantId    string `json:"tenant_id,omitempty"`
+	Name        string `json:"name,omitempty"`
+	Description string `json:"description,omitempty"`
+	Shared      bool   `json:"shared,omitempty"`
+	Audited     bool   `json:"audited,omitempty"`
+}
