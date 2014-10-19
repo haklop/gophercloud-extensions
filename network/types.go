@@ -212,3 +212,23 @@ type FloatingIp struct {
 	Id                string `json:"id,omitempty"`
 	Status            string `json:"status,omitempty"`
 }
+
+type NewFirewall struct {
+	TenantId     string `json:"tenant_id,omitempty"`
+	Name         string `json:"name,omitempty"`
+	Description  string `json:"description,omitempty"`
+	AdminStateUp bool   `json:"admin_state_up,omitempty"`
+	Shared       bool   `json:"shared,omitempty"`
+	PolicyId     string `json:"firewall_policy_id,omitempty"`
+}
+
+type Firewall struct {
+	Id           string `json:"id,omitempty"`
+	TenantId     string `json:"tenant_id,omitempty"`
+	Name         string `json:"name,omitempty"`
+	Description  string `json:"description,omitempty"`
+	AdminStateUp bool   `json:"admin_state_up,omitempty"`
+	Status       bool   `json:"status,omitempty"`
+	Shared       string `json:"shared,omitempty"`
+	PolicyId     string `json:"firewall_policy_id,omitempty"`
+}

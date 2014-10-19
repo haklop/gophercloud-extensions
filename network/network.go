@@ -634,3 +634,50 @@ func (gnp *genericNetworksProvider) ListFloatingIps() ([]FloatingIp, error) {
 
 	return floatingips, err
 }
+
+func (gnp *genericNetworksProvider) CreateFirewall(newFirewall NewFirewall) (*Firewall, error) {
+	var firewall *Firewall
+
+	ep := gnp.endpoint + "/v2.0/fw/firewalls"
+	err := perigee.Post(ep, perigee.Options{
+		ReqBody: &struct {
+			NewFirewall *NewFirewall `json:"firewall"`
+		}{&newFirewall},
+		Results: &struct {
+			Firewall **Firewall `json:"firewall"`
+		}{&firewall},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{201},
+	})
+
+	return firewall, err
+}
+
+func (gnp *genericNetworksProvider) GetFirewall(firewallId string) (*Firewall, error) {
+	var firewall *Firewall
+
+	ep := gnp.endpoint + "/v2.0/fw/firewalls/" + firewallId
+	err := perigee.Get(ep, perigee.Options{
+		Results: &struct{ Firewall **Firewall }{&firewall},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{200},
+	})
+
+	return firewall, err
+}
+
+func (gnp *genericNetworksProvider) DeleteFirewall(firewallId string) error {
+	ep := gnp.endpoint + "/v2.0/fw/firewalls/" + firewallId
+	err := perigee.Delete(ep, perigee.Options{
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{204},
+	})
+
+	return err
+}
