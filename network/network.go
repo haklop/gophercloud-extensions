@@ -730,3 +730,52 @@ func (gnp *genericNetworksProvider) DeleteFirewallPolicy(policyId string) error 
 
 	return err
 }
+
+func (gnp *genericNetworksProvider) CreateFirewallRule(newPolicy NewFirewallRule) (*FirewallRule, error) {
+	var policy *FirewallRule
+
+	ep := gnp.endpoint + "/v2.0/fw/firewall_rules"
+	err := perigee.Post(ep, perigee.Options{
+		ReqBody: &struct {
+			NewFirewallRule *NewFirewallRule `json:"firewall_rule"`
+		}{&newPolicy},
+		Results: &struct {
+			FirewallRule **FirewallRule `json:"firewall_rule"`
+		}{&policy},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{201},
+	})
+
+	return policy, err
+}
+
+func (gnp *genericNetworksProvider) GetFirewallRule(policyId string) (*FirewallRule, error) {
+	var policy *FirewallRule
+
+	ep := gnp.endpoint + "/v2.0/fw/firewall_rules/" + policyId
+	err := perigee.Get(ep, perigee.Options{
+		Results: &struct {
+			FirewallRule **FirewallRule `json:"firewall_rule"`
+		}{&policy},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{200},
+	})
+
+	return policy, err
+}
+
+func (gnp *genericNetworksProvider) DeleteFirewallRule(policyId string) error {
+	ep := gnp.endpoint + "/v2.0/fw/firewall_rules/" + policyId
+	err := perigee.Delete(ep, perigee.Options{
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{204},
+	})
+
+	return err
+}
