@@ -634,3 +634,148 @@ func (gnp *genericNetworksProvider) ListFloatingIps() ([]FloatingIp, error) {
 
 	return floatingips, err
 }
+
+func (gnp *genericNetworksProvider) CreateFirewall(newFirewall NewFirewall) (*Firewall, error) {
+	var firewall *Firewall
+
+	ep := gnp.endpoint + "/v2.0/fw/firewalls"
+	err := perigee.Post(ep, perigee.Options{
+		ReqBody: &struct {
+			NewFirewall *NewFirewall `json:"firewall"`
+		}{&newFirewall},
+		Results: &struct {
+			Firewall **Firewall `json:"firewall"`
+		}{&firewall},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{201},
+	})
+
+	return firewall, err
+}
+
+func (gnp *genericNetworksProvider) GetFirewall(firewallId string) (*Firewall, error) {
+	var firewall *Firewall
+
+	ep := gnp.endpoint + "/v2.0/fw/firewalls/" + firewallId
+	err := perigee.Get(ep, perigee.Options{
+		Results: &struct{ Firewall **Firewall }{&firewall},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{200},
+	})
+
+	return firewall, err
+}
+
+func (gnp *genericNetworksProvider) DeleteFirewall(firewallId string) error {
+	ep := gnp.endpoint + "/v2.0/fw/firewalls/" + firewallId
+	err := perigee.Delete(ep, perigee.Options{
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{204},
+	})
+
+	return err
+}
+
+func (gnp *genericNetworksProvider) CreateFirewallPolicy(newPolicy NewFirewallPolicy) (*FirewallPolicy, error) {
+	var policy *FirewallPolicy
+
+	ep := gnp.endpoint + "/v2.0/fw/firewall_policies"
+	err := perigee.Post(ep, perigee.Options{
+		ReqBody: &struct {
+			NewFirewallPolicy *NewFirewallPolicy `json:"firewall_policy"`
+		}{&newPolicy},
+		Results: &struct {
+			FirewallPolicy **FirewallPolicy `json:"firewall_policy"`
+		}{&policy},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{201},
+	})
+
+	return policy, err
+}
+
+func (gnp *genericNetworksProvider) GetFirewallPolicy(policyId string) (*FirewallPolicy, error) {
+	var policy *FirewallPolicy
+
+	ep := gnp.endpoint + "/v2.0/fw/firewall_policies/" + policyId
+	err := perigee.Get(ep, perigee.Options{
+		Results: &struct {
+			FirewallPolicy **FirewallPolicy `json:"firewall_policy"`
+		}{&policy},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{200},
+	})
+
+	return policy, err
+}
+
+func (gnp *genericNetworksProvider) DeleteFirewallPolicy(policyId string) error {
+	ep := gnp.endpoint + "/v2.0/fw/firewall_policies/" + policyId
+	err := perigee.Delete(ep, perigee.Options{
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{204},
+	})
+
+	return err
+}
+
+func (gnp *genericNetworksProvider) CreateFirewallRule(newPolicy NewFirewallRule) (*FirewallRule, error) {
+	var policy *FirewallRule
+
+	ep := gnp.endpoint + "/v2.0/fw/firewall_rules"
+	err := perigee.Post(ep, perigee.Options{
+		ReqBody: &struct {
+			NewFirewallRule *NewFirewallRule `json:"firewall_rule"`
+		}{&newPolicy},
+		Results: &struct {
+			FirewallRule **FirewallRule `json:"firewall_rule"`
+		}{&policy},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{201},
+	})
+
+	return policy, err
+}
+
+func (gnp *genericNetworksProvider) GetFirewallRule(policyId string) (*FirewallRule, error) {
+	var policy *FirewallRule
+
+	ep := gnp.endpoint + "/v2.0/fw/firewall_rules/" + policyId
+	err := perigee.Get(ep, perigee.Options{
+		Results: &struct {
+			FirewallRule **FirewallRule `json:"firewall_rule"`
+		}{&policy},
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{200},
+	})
+
+	return policy, err
+}
+
+func (gnp *genericNetworksProvider) DeleteFirewallRule(policyId string) error {
+	ep := gnp.endpoint + "/v2.0/fw/firewall_rules/" + policyId
+	err := perigee.Delete(ep, perigee.Options{
+		MoreHeaders: map[string]string{
+			"X-Auth-Token": gnp.access.AuthToken(),
+		},
+		OkCodes: []int{204},
+	})
+
+	return err
+}

@@ -212,3 +212,73 @@ type FloatingIp struct {
 	Id                string `json:"id,omitempty"`
 	Status            string `json:"status,omitempty"`
 }
+
+type NewFirewall struct {
+	TenantId     string `json:"tenant_id,omitempty"`
+	Name         string `json:"name,omitempty"`
+	Description  string `json:"description,omitempty"`
+	AdminStateUp bool   `json:"admin_state_up,omitempty"`
+	Shared       bool   `json:"shared,omitempty"`
+	PolicyId     string `json:"firewall_policy_id,omitempty"`
+}
+
+type Firewall struct {
+	Id           string `json:"id,omitempty"`
+	TenantId     string `json:"tenant_id,omitempty"`
+	Name         string `json:"name,omitempty"`
+	Description  string `json:"description,omitempty"`
+	AdminStateUp bool   `json:"admin_state_up,omitempty"`
+	Status       bool   `json:"status,omitempty"`
+	Shared       string `json:"shared,omitempty"`
+	PolicyId     string `json:"firewall_policy_id,omitempty"`
+}
+
+type NewFirewallPolicy struct {
+	TenantId    string   `json:"tenant_id,omitempty"`
+	Name        string   `json:"name,omitempty"`
+	Description string   `json:"description,omitempty"`
+	Shared      bool     `json:"shared,omitempty"`
+	Audited     bool     `json:"audited,omitempty"`
+	Rules       []string `json:"firewall_rules,omitempty"`
+}
+
+type FirewallPolicy struct {
+	Id          string   `json:"id,omitempty"`
+	TenantId    string   `json:"tenant_id,omitempty"`
+	Name        string   `json:"name,omitempty"`
+	Description string   `json:"description,omitempty"`
+	Shared      bool     `json:"shared,omitempty"`
+	Audited     bool     `json:"audited,omitempty"`
+	Rules       []string `json:"firewall_rules,omitempty"`
+}
+
+type NewFirewallRule struct {
+	TenantId             string `json:"tenant_id,omitempty"`
+	Name                 string `json:"name,omitempty"`
+	Description          string `json:"description,omitempty"`
+	Protocol             string `json:"protocol,omitempty"`
+	Action               string `json:"action,omitempty"`
+	IpVersion            int    `json:"ip_version,omitempty"`
+	SourceIpAddress      string `json:"source_ip_address,omitempty"`
+	DestinationIpAddress string `json:"destination_ip_address,omitempty"`
+	SourcePort           string `json:"source_port,omitempty"`
+	DestinationPort      string `json:"destination_port,omitempty"`
+	Shared               bool   `json:"shared,omitempty"`
+	Enabled              bool   `json:"enabled,omitempty"`
+}
+
+type FirewallRule struct {
+	Id                   string `json:"id,omitempty"`
+	TenantId             string `json:"tenant_id,omitempty"`
+	Name                 string `json:"name,omitempty"`
+	Description          string `json:"description,omitempty"`
+	Protocol             string `json:"protocol,omitempty"`
+	Action               string `json:"action,omitempty"`
+	IpVersion            int    `json:"ip_version,omitempty"`
+	SourceIpAddress      string `json:"source_ip_address,omitempty"`
+	DestinationIpAddress string `json:"destination_ip_address,omitempty"`
+	SourcePort           string `json:"source_port,omitempty"`
+	DestinationPort      string `json:"destination_port,omitempty"`
+	Shared               bool   `json:"shared,omitempty"`
+	Enabled              bool   `json:"enabled,omitempty"`
+}

@@ -49,4 +49,16 @@ type NetworkProvider interface {
 	ListFloatingIps() ([]FloatingIp, error)
 	AssociateFloatingIp(portId string, floatingId string) error
 	UnassociateFloatingIp(floatingIpId string) error
+
+	CreateFirewall(newFirewall NewFirewall) (*Firewall, error)
+	GetFirewall(firewallId string) (*Firewall, error)
+	DeleteFirewall(firewallId string) error
+
+	CreateFirewallPolicy(newPolicy NewFirewallPolicy) (*FirewallPolicy, error)
+	GetFirewallPolicy(policyId string) (*FirewallPolicy, error)
+	DeleteFirewallPolicy(policyId string) error
+
+	CreateFirewallRule(newRule NewFirewallRule) (*FirewallRule, error)
+	GetFirewallRule(ruleId string) (*FirewallRule, error)
+	DeleteFirewallRule(ruleId string) error
 }
